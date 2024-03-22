@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\GeneraOrdenes;
 use DB;
 
 
@@ -102,10 +103,37 @@ class GenerarOrdenesController extends Controller
         $estudiantes=DB::select("select * from matriculas m 
         join estudiantes e on m.est_id=e.id
         where m.anl_id=$anl_id and m.mat_estado=1 and m.jor_id=$jor_id");
-        dd($estudiantes);
+        
+        foreach($estudiantes as $e)
+        {
+            $input['mat_id'];
+            $input['fecha'];
+            $input['mes'];
+            $input['codigo'];
+            $input['valor'];
+            $input['fecha_pago'];
+            $input['tipo'];
+            $input['estado'];
+            $input['responsable'];
+            $input['obs'];
+            $input['identificador'];
+            $input['motivo'];
+            $input['vpagado'];
+            $input['f_acuerdo'];
+            $input['ac_no'];
+            $input['especial_code'];
+            $input['especial'];
+            $input['numero_documento'];
+
+        }
 
 
     }
 
+    public function matricula()
+    {
+        return $this->belongsTo(Matricula::class,'mat_id','id');
+    }
+    
 
 }
