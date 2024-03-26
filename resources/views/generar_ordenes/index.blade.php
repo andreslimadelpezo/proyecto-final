@@ -38,4 +38,24 @@
     <button type="submit" class="btn btn-danger btn-sm mt-3">GENERAR</button>
 </form>
 
+
+
+<table class="table">
+    <tr>
+        <th>Ordenes Generadas</th>
+    </tr>
+
+    <tr>
+        <th>secuencial</th>
+        <th>fecha</th>
+        <th>acciones</th>
+    </tr>
+    @foreach($ordenes as $o)
+        <tr>
+            <td>{{$o->especial}}</td>
+            <td>{{$o->fecha}}</td>
+        </tr>
+    @endforeach
+</table>
+
 @endsection('content')
