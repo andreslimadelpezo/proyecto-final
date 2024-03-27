@@ -13,6 +13,8 @@ class GenerarOrdenesController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
+     
      */
     public function index(Request $rq) 
     {
@@ -20,13 +22,23 @@ class GenerarOrdenesController extends Controller
 
         $periodos=DB::select("SELECT * FROM aniolectivo");
         $jornadas=DB::select("SELECT * FROM jornadas");
-        $ordenes=DB::select("SELECT especial,fecha FROM ordenes_generadas GROUP BY especial,fecha");
+        
+        $ordenes=DB::select("SELECT o.especial,fecha,j.jor_descripcion,o.mes,a.anl_descripcion
+        FROM ordenes_generadas o
+        JOIN matriculas m ON m.id=mat_id
+        JOIN jornadas j ON j.id=m.jor_id
+        JOIN aniolectivo a ON a.id=m.anl_id
+        GROUP BY o.especial,o.fecha,j.jor_descripcion,o.mes,a.anl_descripcion
+        
+        ");
         $meses=$this->meses();
         return view('generar_ordenes.index')
         ->with('periodos',$periodos)
         ->with('jornadas',$jornadas)
         ->with('meses',$meses)
         ->with('ordenes',$ordenes);
+        
+
 
     }
 
@@ -122,6 +134,10 @@ class GenerarOrdenesController extends Controller
         $mes=$datos['mes'];
         $nmes=$this->mesesLetras($mes);
         $campus="G";
+        $secuenciales=DB::selectone("SELECT max(especial) as secuencial from ordenes_generadas");
+
+        $sec = $secuenciales->secuencial + 1;
+
 
         $estudiantes=DB::select("SELECT *, m.id AS mat_id FROM matriculas m 
         JOIN estudiantes e ON m.est_id=e.id
@@ -142,7 +158,7 @@ class GenerarOrdenesController extends Controller
                 $input['mat_id']=$e->mat_id; //id de la matricula
                 $input['fecha']=date('y-m-d');
                 $input['mes']=$mes;
-                $input['codigo']=$nmes.$campus.$e->jor_obs.$e->cur_obs.$e->esp_obs." - ".$e->mat_id;   //MGM3IF-MAT_ID
+                $input['codigo']=$nmes.$campus.$e->jor_obs.$e->cur_obs.$e->esp_obs."-".$e->mat_id;   //MGM3IF-MAT_ID
                 $input['valor']=$valor_pagar;//
                 $input['fecha_pago']=NULL;//da el banco
                 $input['tipo']=NULL;
@@ -155,12 +171,13 @@ class GenerarOrdenesController extends Controller
                 $input['f_acuerdo']=NULL;
                 $input['ac_no']=NULL;
                 $input['especial_code']=NULL;
-                $input['especial']=1;//
+                $input['especial']=$sec;//
                 $input['numero_documento']=NULL;//numero de edocumento que pago el usuario
                 GeneraOrdenes::create($input);
                 
 
             }
+            return redirect(route('generar_ordenes.index') );
 
 
     }
