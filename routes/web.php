@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users',UsersController::class);
     Route::get('/generar_ordenes',[GenerarOrdenesController::Class,'index'])->name('generar_ordenes.index'); 
     Route::post('/generarOrdenes',[GenerarOrdenesController::Class,'generarOrdenes'])->name('generarOrdenes'); 
+    Route::post('/eliminaOrden',[GenerarOrdenesController::Class,'eliminaOrden'])->name('eliminaOrden'); 
 });
 
 Route::resource('cursos',CursosController::class);
