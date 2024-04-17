@@ -35,7 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('users',UsersController::class);
     Route::get('/generar_ordenes',[GenerarOrdenesController::Class,'index'])->name('generar_ordenes.index'); 
     Route::post('/generarOrdenes',[GenerarOrdenesController::Class,'generarOrdenes'])->name('generarOrdenes'); 
-    Route::post('/eliminaOrden',[GenerarOrdenesController::Class,'eliminaOrden'])->name('eliminaOrden'); 
+    Route::post('/generarOrdenes',[GenerarOrdenesController::Class,'generarOrdenes'])->name('generarOrdenes'); 
+    Route::post('/eliminarOrden',[GenerarOrdenesController::Class,'eliminaOrden'])->name('eliminaOrden'); 
+    Route::get('/verOrdenes/{sec}',[GenerarOrdenesController::Class,'show'])->name('generar_ordenes.show'); 
+    Route::get('/exelOrdenes/{sec}',[GenerarOrdenesController::Class,'crearExel'])->name('generar_ordenes.exel'); 
+    
 });
 
 Route::resource('cursos',CursosController::class);

@@ -34,18 +34,27 @@ class GenerarOrdenesController extends Controller
             ->with('ordenes', $ordenes);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $orden = GeneraOrdenes::where('especial', $id)->firstOrFail();
-        return view('botonVer', compact('orden'));
+    public function show($sec){
+            
+        $datos=$ordenes = DB::select(" SELECT * FROM ordenes_generadas og 
+        JOIN matriculas m ON og.mat_id = m.id
+        JOIN jornadas j ON m.jor_id = j.id
+        JOIN aniolectivo al ON m.anl_id = al.id 
+        JOIN estudiantes es ON m.est_id = es.id
+        JOIN cursos c ON m.cur_id = c.id
+        JOIN especialidades esp ON m.esp_id = esp.id
+        WHERE og.especial = '$sec'
+        ORDER BY es.est_apellidos ");
+        return view('generar_ordenes.show')
+        ->with('sec',$sec)
+        ->with('datos',$datos);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    public function crearExel($sec){
+        return Excel::download(new OrdenesExport($sec), 'ordenes.xlsx');
+            
+    }
+    
     public function update(Request $request, string $id)
     {
         //
@@ -175,6 +184,7 @@ class GenerarOrdenesController extends Controller
         return redirect(route('generar_ordenes.index'));
         }
     }
+    
 
     public function eliminaOrden(Request $rq)
     {

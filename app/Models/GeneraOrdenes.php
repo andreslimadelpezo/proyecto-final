@@ -33,5 +33,7 @@ class GeneraOrdenes extends Model
 
     
 
+    
+
     use HasFactory;
 }
