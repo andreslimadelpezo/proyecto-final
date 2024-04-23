@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\XlsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursosController;
@@ -35,11 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('users',UsersController::class);
     Route::get('/generar_ordenes',[GenerarOrdenesController::Class,'index'])->name('generar_ordenes.index'); 
     Route::post('/generarOrdenes',[GenerarOrdenesController::Class,'generarOrdenes'])->name('generarOrdenes'); 
-    Route::post('/generarOrdenes',[GenerarOrdenesController::Class,'generarOrdenes'])->name('generarOrdenes'); 
-    Route::post('/eliminarOrden',[GenerarOrdenesController::Class,'eliminaOrden'])->name('eliminaOrden'); 
+    Route::post('/eliminaOrden',[GenerarOrdenesController::Class,'eliminaOrden'])->name('eliminaOrden'); 
     Route::get('/verOrdenes/{sec}',[GenerarOrdenesController::Class,'show'])->name('generar_ordenes.show'); 
-    Route::get('/exelOrdenes/{sec}',[GenerarOrdenesController::Class,'crearExel'])->name('generar_ordenes.exel'); 
-    
+    Route::get('/xlsOrdenes/{sec}',[XlsController::Class,'generarExcel'])->name('generar_ordenes.xls'); 
 });
 
 Route::resource('cursos',CursosController::class);

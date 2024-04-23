@@ -1,6 +1,24 @@
 @extends('layouts.app')
 @section('content')
-
+@php
+function nmesesTexto($nmes){
+    $meses = [
+        '1' => 'Enero',
+        '2' => 'Febrero',
+        '3' => 'Marzo',
+        '4' => 'Abril',
+        '5' => 'Mayo',
+        '6' => 'Junio',
+        '7' => 'Julio',
+        '8' => 'Agosto',
+        '9' => 'Septiembre',
+        '10' => 'Octubre',
+        '11' => 'Noviembre',
+        '12' => 'Diciembre'
+    ];
+        return $meses[$nmes];
+}
+@endphp
 
 <script>
     $(document).on("click",".btn_delete",function(){
@@ -74,11 +92,11 @@
             <td>{{ $o->fecha }}</td>
             <td>{{ $o->anl_descripcion }}</td>
             <td>{{ $o->jor_descripcion }}</td>
-            <td>{{$o->mes }}</td>
+            <td>{{ nmesesTexto($o->mes) }}</td>
             <td>
-            <a href="{{ route('generar_ordenes.show', ['sec' => $o->especial]) }}"><button class="btn btn-warning btn-sm mt-3">VER</button></a>
+                <a href="{{ route('generar_ordenes.show', ['sec' => $o->especial]) }}"><button class="btn btn-warning btn-sm mt-3">VER</button></a>
                 <a ><button class="btn btn-danger btn-sm mt-3 btn_delete" secuencial="{{ $o->especial }}">ELIMINAR</button></a>
-                <a href="{{ route('generar_ordenes.exel', ['sec' => $o->especial]) }}"><button class="btn btn-success btn-sm mt-3 " >EXEL</button></a>
+                <a href="{{ route('generar_ordenes.xls', ['sec' => $o->especial]) }}"><button class="btn btn-success btn-sm mt-3">EXEL</button></a>
             </td>
         </tr>
     @endforeach

@@ -22,14 +22,14 @@
         <td>{{$c->cur_titulo}} </td>
         <td>{{$c->cur_descripcion}} </td>
         <td>{{$c->cur_grupo}} </td>
-        <td>{{$c->cur_estado==1?'Activo':'Inactivo'}} </td>
+        <td>{{$c->cur_estado==0?'Activo':'Inactivo'}} </td>
 
         <td>
             <div class="small  btn-group ">
-            <a href="{{route('cursos.edit',$c->cur_id)}} " class="btn btn-info btn-sm"><i class="bi bi-pencil-square"></i></a>
+            <a href="{{route('cursos.edit',$c->id)}} " class="btn btn-info btn-sm"><i class="bi bi-pencil-square"></i></a>
 
            
-            <form action="{{route('cursos.destroy',$c->cur_id)}}" method="POST" onsubmit="return confirm('desea eliminar el curso?')">
+            <form action="{{route('cursos.destroy',$c->id)}}" method="POST" onsubmit="return confirm('desea eliminar el curso?')">
                 @csrf  
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></button>

@@ -34,6 +34,9 @@ class GenerarOrdenesController extends Controller
             ->with('ordenes', $ordenes);
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show($sec){
             
         $datos=$ordenes = DB::select(" SELECT * FROM ordenes_generadas og 
@@ -48,13 +51,17 @@ class GenerarOrdenesController extends Controller
         return view('generar_ordenes.show')
         ->with('sec',$sec)
         ->with('datos',$datos);
+        
     }
-
-    public function crearExel($sec){
-        return Excel::download(new OrdenesExport($sec), 'ordenes.xlsx');
-            
+    public function xls($sec){
+            dd("este es el xls");
+      
+        
     }
-    
+   
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
         //
@@ -67,6 +74,7 @@ class GenerarOrdenesController extends Controller
     {
         //
     }
+    
 
     public function meses()
     {
@@ -184,12 +192,11 @@ class GenerarOrdenesController extends Controller
         return redirect(route('generar_ordenes.index'));
         }
     }
-    
 
     public function eliminaOrden(Request $rq)
     {
         $dt = $rq->all();
-        $secuencial = $dt['secuencial']; // Se corrigió el punto y coma faltante al final de la línea
+        $secuencial = $dt['secuencial']; 
         $ordenes = GeneraOrdenes::where('especial', $secuencial)->delete();
         return redirect(route('generar_ordenes.index'));
     }
